@@ -15,22 +15,12 @@ internal class Day01 : Day<long>
         var inputValues = GetListOfLines(inputName);
         if (part == 2)
         {
-            var newValues = new List<string>();
-            foreach (var line in inputValues)
-            {
-                var newLine = GetDigits(line);
-                newValues.Add(newLine);
-            }
-            inputValues = newValues;
+            inputValues = inputValues.Select(GetDigits).ToList();
         }
         
-        long result = 0;
-        foreach (var line in inputValues)
-        {
-            result += 10 * (line.First(char.IsDigit) - '0');
-            result += line.Last(char.IsDigit) - '0';
-        }
-        return result;
+        return inputValues
+            .Select(x => (long)10 * (x.First(char.IsDigit) - '0') + x.Last(char.IsDigit) - '0')
+            .Sum();
     }
 
     private string GetDigit(string line)

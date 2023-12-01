@@ -51,7 +51,7 @@ internal abstract class Day<TResult> where TResult:IComparable?
 
     protected static List<string> GetListOfLines(string fileName)
     {
-        var inputLines = File.ReadLines($@"input/{fileName}").ToList();
+        var inputLines = File.ReadLines($"input/{fileName}").ToList();
         return inputLines;
     }
 

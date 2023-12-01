@@ -33,7 +33,7 @@ public readonly struct Direction
             case "W": case "L": X = -1; break;
             case "E": case "R": X = 1; break;
             default:
-                throw new ArgumentException($"Unknown direction $name.", name);
+                throw new ArgumentException($"Unknown direction {name}.");
         }
     }
 
@@ -55,7 +55,7 @@ public readonly struct Direction
     public bool Equals(Direction p)
     {
         // If run-time types are not exactly the same, return false.
-        if (this.GetType() != p.GetType())
+        if (GetType() != p.GetType())
         {
             return false;
         }
@@ -63,7 +63,7 @@ public readonly struct Direction
         // Return true if the fields match.
         // Note that the base class is not invoked because it is
         // System.Object, which defines Equals as reference equality.
-        return (X == p.X) && (Y == p.Y);
+        return X == p.X && Y == p.Y;
     }
 
     public override int GetHashCode() => (X, Y).GetHashCode();

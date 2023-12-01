@@ -19,7 +19,7 @@ public class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TV
         get
         {
             if (TryGetValue(key, out var val)) return val;
-            val = new();
+            val = new TValue();
             Add(key, val);
             return val;
         }

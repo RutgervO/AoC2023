@@ -1,3 +1,5 @@
+using AOC.util;
+
 namespace AOC.days;
 
 internal class Day01 : Day<long>
@@ -29,8 +31,7 @@ internal class Day01 : Day<long>
     {
         if (char.IsDigit(line[0])) return "" + line[0];
         return _words
-            .Select((s, i) => line.StartsWith(s) ? $"{i + 1}" : "")
-            .Where(x => x.Length > 0)
+            .SelectWhere((_, i) => $"{i + 1}", (x, _) => line.StartsWith(x))
             .FirstOrDefault("");
     }
 

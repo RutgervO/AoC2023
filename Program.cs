@@ -4,7 +4,7 @@ namespace AOC;
 
 internal static class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
         Console.WriteLine("AOC 2023 runner");
         
@@ -20,8 +20,8 @@ internal static class Program
         var days = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => p.FullName!.StartsWith(baseName))
-            .Where(p => p.Name.Length == 5 && p.Name[3] >= '0' && p.Name[3] < '3')
-            .Select(p => new Tuple<System.Type,int> ( p, int.Parse(p.Name[3..])))
+            .Where(p => p.Name is [_, _, _, >= '0' and < '3', _])
+            .Select(p => new Tuple<Type,int> ( p, int.Parse(p.Name[3..])))
             .ToArray();
         skip = Math.Min(days.Length - 1, skip); // Don't skip past the last day
         Console.WriteLine($"Running the last {limit} day(s) out of {days.Length} ");

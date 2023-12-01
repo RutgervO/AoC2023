@@ -57,7 +57,7 @@ public readonly struct Coordinate3D
     public bool Equals(Coordinate3D p)
     {
         // If run-time types are not exactly the same, return false.
-        if (this.GetType() != p.GetType())
+        if (GetType() != p.GetType())
         {
             return false;
         }
@@ -65,7 +65,7 @@ public readonly struct Coordinate3D
         // Return true if the fields match.
         // Note that the base class is not invoked because it is
         // System.Object, which defines Equals as reference equality.
-        return (X == p.X) && (Y == p.Y) && (Z == p.Z);
+        return X == p.X && Y == p.Y && Z == p.Z;
     }
 
     public override int GetHashCode() => (X, Y, Z).GetHashCode();

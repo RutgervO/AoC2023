@@ -23,20 +23,15 @@ internal class Day01 : Day<long>
             .Sum();
     }
 
+    private readonly string[] _words = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+    
     private string GetDigit(string line)
     {
         if (char.IsDigit(line[0])) return "" + line[0];
-        var words = new[] { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-        var digit = '1';
-        foreach (var word in words)
-        {
-            if (line.StartsWith(word))
-            {
-                return "" + digit;
-            }
-            digit++;
-        }
-        return "";
+        return _words
+            .Select((s, i) => line.StartsWith(s) ? $"{i + 1}" : "")
+            .Where(x => x.Length > 0)
+            .FirstOrDefault("");
     }
 
     private string GetDigits(string line)

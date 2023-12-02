@@ -22,20 +22,16 @@ internal class Day02 : Day<long>
         {
             var valid = true;
             var maxValues = new DefaultDictionary<string, int>();
-            var turns = line.Split(new[] { ';', ':' }, StringSplitOptions.RemoveEmptyEntries).Skip(1);
-            foreach (var turn in turns)
+            var moves = line.Split(new[] { ':' }).Skip(1).Single().Split(new[] {',', ';' });
+            foreach (var move in moves)
             {
-                var moves = turn.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                foreach (var move in moves)
+                var parts = move.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var count = int.Parse(parts[0]);
+                var color = parts[1];
+                maxValues[color] = int.Max(maxValues[color], count);
+                if (maxValues[color] > settings[color])
                 {
-                    var bla = move.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    var count = int.Parse(bla[0]);
-                    var color = bla[1];
-                    maxValues[color] = int.Max(maxValues[color], count);
-                    if (maxValues[color] > settings[color])
-                    {
-                        valid = false;
-                    }
+                    valid = false;
                 }
             }
 

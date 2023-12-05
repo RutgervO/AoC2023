@@ -1,4 +1,5 @@
-﻿using AOC.days;
+﻿using System.Diagnostics;
+using AOC.days;
 
 namespace AOC;
 
@@ -24,7 +25,11 @@ internal static class Program
             .Select(p => new Tuple<Type,int> ( p, int.Parse(p.Name[3..])))
             .ToArray();
         skip = Math.Min(days.Length - 1, skip); // Don't skip past the last day
+        
         Console.WriteLine($"Running the last {limit} day(s) out of {days.Length} ");
+        Console.WriteLine();
+        
+        var watch = Stopwatch.StartNew();
         foreach (var (classToRun, dayNumber) in days.Skip(skip).Take(limit))
         {
             switch (Activator.CreateInstance(classToRun))
@@ -39,5 +44,9 @@ internal static class Program
                     break;
             }
         }
+        watch.Stop();
+        
+        Console.WriteLine();
+        Console.WriteLine($"Execution took {watch.Elapsed}.");
     }
 }

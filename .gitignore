@@ -35,4 +35,4 @@ Desktop.ini
 .DS_Store
 
 # AoC specific
-input/*
+input/*.txt

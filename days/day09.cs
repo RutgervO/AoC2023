@@ -16,42 +16,21 @@ internal class Day09 : Day<long>
     public override long RunPart(int part, string inputName)
     {
         var lines = GetListOfLines(inputName);
-        long result = 0;
-        foreach (var line in lines)
-        {
-            var sequence = line.Split(' ').Select(long.Parse);
-            if (part == 1)
-            {
-                result += GetNextNumber(sequence);
-            }
-            else
-            {
-                result += GetPreviousNumber(sequence);
-            }
-        }
 
-        return result;
+        return lines
+            .Select(line => line.Split(' ').Select(long.Parse))
+            .Select(sequence => GetNextNumber((part == 1) ? sequence : sequence.Reverse()))
+            .Sum();
     }
 
     private long GetNextNumber(IEnumerable<long> sequence)
     {
         var diffs = sequence.SelectWithPrevious((prev, cur) => cur - prev).ToArray();
-        if (diffs.ToHashSet().Count == 1)
+        if (diffs.All(x => x == diffs[0]))
         {
-            return sequence.Last() + diffs.First();
+            return sequence.Last() + diffs[0];
         }
 
         return sequence.Last() + GetNextNumber(diffs);
-    }
-    
-    private long GetPreviousNumber(IEnumerable<long> sequence)
-    {
-        var diffs = sequence.SelectWithPrevious((prev, cur) => cur - prev).ToArray();
-        if (diffs.ToHashSet().Count == 1)
-        {
-            return sequence.First() - diffs.First();
-        }
-
-        return sequence.First() - GetPreviousNumber(diffs);
     }
 }

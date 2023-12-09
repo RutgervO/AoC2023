@@ -28,4 +28,34 @@ public static class EnumerableExtensions
             }
         }
     }
+    public static IEnumerable<T> RepeatIndefinitely<T>(this IEnumerable<T> source)
+    {
+        var list = source.ToList();
+        while (true)
+        {
+            foreach (var item in list)
+            {
+                yield return item;
+            }
+        }
+    }
+    
+    public static IEnumerable<TResult> SelectWithPrevious<TSource, TResult>
+    (this IEnumerable<TSource> source,
+        Func<TSource, TSource, TResult> projection)
+    {
+        using (var iterator = source.GetEnumerator())
+        {
+            if (!iterator.MoveNext())
+            {
+                yield break;
+            }
+            TSource previous = iterator.Current;
+            while (iterator.MoveNext())
+            {
+                yield return projection(previous, iterator.Current);
+                previous = iterator.Current;
+            }
+        }
+    }
 }

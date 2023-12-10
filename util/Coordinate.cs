@@ -42,6 +42,12 @@ public readonly struct Coordinate
     {
         return new Coordinate(Math.Min(Math.Max(X, -max), max), Math.Min(Math.Max(Y, -max), max));
     }
+
+    public bool IsInverse(Coordinate other)
+    {
+        return (X + other.X == 0) && (Y + other.Y == 0);
+    }
+    
     public void Deconstruct(out int x, out int y)
     {
         x = X;

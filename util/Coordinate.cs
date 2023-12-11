@@ -1,12 +1,7 @@
 namespace AOC.util;
 
-public readonly struct Coordinate
+public readonly struct Coordinate : IComparable<Coordinate>, IComparable
 {
-    public override bool Equals(object? obj)
-    {
-        return obj is Coordinate other && Equals(other);
-    }
-
     public int X { get; }
     public int Y { get; }
 
@@ -80,4 +75,42 @@ public readonly struct Coordinate
     {
         return $"({X},{Y})";
     }
+    public int CompareTo(Coordinate other)
+    {
+        var xComparison = X.CompareTo(other.X);
+        if (xComparison != 0) return xComparison;
+        return Y.CompareTo(other.Y);
+    }
+
+    public int CompareTo(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return 1;
+        return obj is Coordinate other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Coordinate)}");
+    }
+
+    public static bool operator <(Coordinate left, Coordinate right)
+    {
+        return left.CompareTo(right) < 0;
+    }
+
+    public static bool operator >(Coordinate left, Coordinate right)
+    {
+        return left.CompareTo(right) > 0;
+    }
+
+    public static bool operator <=(Coordinate left, Coordinate right)
+    {
+        return left.CompareTo(right) <= 0;
+    }
+
+    public static bool operator >=(Coordinate left, Coordinate right)
+    {
+        return left.CompareTo(right) >= 0;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Coordinate other && Equals(other);
+    }
+
 }

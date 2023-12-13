@@ -1,4 +1,3 @@
-using System.Reflection;
 using AOC.util;
 
 namespace AOC.days;

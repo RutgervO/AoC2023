@@ -15,6 +15,12 @@ public readonly struct Direction
         X = direction.X;
         Y = direction.Y;
     }
+    
+    public Direction(int x, int y)
+    {
+        this.X = x;
+        this.Y = y;
+    }
 
     public Direction(Direction direction)
     {

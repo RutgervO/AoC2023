@@ -27,6 +27,11 @@ public readonly struct Coordinate : IComparable<Coordinate>, IComparable
     {
         return new Coordinate(X + other.X, Y + other.Y);
     }
+    
+    public Coordinate Add(Direction other)
+    {
+        return new Coordinate(X + other.X, Y + other.Y);
+    }
 
     public Coordinate Subtract(Coordinate other)
     {

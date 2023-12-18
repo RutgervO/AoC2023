@@ -45,8 +45,9 @@ public readonly struct Direction
 
     public static IEnumerable<Direction> AllDirections()
     {
-        return "NSWE".Select(c => new Direction(c.ToString()));
+        return "SENW".Select(c => new Direction(c.ToString()));
     }
+    
     public void Deconstruct(out int x, out int y)
     {
         x = X;
@@ -56,6 +57,16 @@ public readonly struct Direction
     public Coordinate ToCoordinate()
     {
         return new Coordinate(X, Y);
+    }
+
+    public Direction Inverse()
+    {
+        return new Direction(-X, -Y);
+    }
+    
+    public bool IsInverse(Direction other)
+    {
+        return X == - other.X && Y == - other.Y;
     }
     
     public bool Equals(Direction p)

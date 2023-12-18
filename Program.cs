@@ -26,7 +26,7 @@ internal static class Program
             .ToArray();
         skip = Math.Min(days.Length - 1, skip); // Don't skip past the last day
         
-        Console.WriteLine($"Running the last {limit} day(s) out of {days.Length} ");
+        Console.WriteLine($"Running the last {(limit == 1 ? "" : $"{limit} ")}day{(limit is 0 or > 1 ? "s" : "")} out of {days.Length}:");
         Console.WriteLine();
         
         var watch = Stopwatch.StartNew();
@@ -47,6 +47,7 @@ internal static class Program
         watch.Stop();
         
         Console.WriteLine();
-        Console.WriteLine($"Execution took {watch.Elapsed}.");
+        Console.WriteLine($"Execution took {watch.Elapsed}.",
+            watch.ElapsedMilliseconds < 1000 ? ConsoleColor.Green : ConsoleColor.Red);
     }
 }

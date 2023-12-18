@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace AOC.days;
 
 internal abstract class Day<TResult> where TResult:IComparable?
@@ -30,22 +32,44 @@ internal abstract class Day<TResult> where TResult:IComparable?
         foreach (var (title, action, testResult) in Sequence)
         {
             Out($"Day {DayNumber} {title}: ");
+            var watch = Stopwatch.StartNew();
             var result = action();
-            Out($"{result} ");
+            watch.Stop();
             if (title.Contains("est") || !Equals(testResult, default(TResult))) {
-                if (Equals(result, testResult)) {
-                    Out("✓");
+                if (Equals(result, testResult))
+                {
+                    Out($"{result} ✓", ConsoleColor.Green);
                 } else {
-                    Out($"❌ Expected: {testResult}\n");
+                    Out($"{result} ❌ Expected: {testResult}\n", ConsoleColor.Red);
                     return;
                 }
+            }
+            else
+            {
+                Out($"{result} ");
+            }
+
+            if (watch.ElapsedMilliseconds < 1000)
+            {
+                Out("  \u23f1 <1s", ConsoleColor.Green);
+            }
+            else
+            {
+                Out($"  \u23f1 {watch.Elapsed}", ConsoleColor.Red);
             }
             Out("\n");
         }
     }
 
-    private static void Out(string output)
+    private static void Out(string output, ConsoleColor? color = null)
     {
+        if (color != null)
+        {
+            Console.ForegroundColor = (ConsoleColor)color;
+            Console.Write(output);
+            Console.ResetColor();
+            return;
+        }
         Console.Write(output);
     }
 

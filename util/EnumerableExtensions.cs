@@ -8,6 +8,7 @@ public static class EnumerableExtensions
             .GroupBy(i => i.index, i => i.item)
             .Select(g => g.ToList());
     }
+    
     public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> self)       
         => self.Select((item, index) => (item, index));
     
@@ -28,6 +29,7 @@ public static class EnumerableExtensions
             }
         }
     }
+    
     public static IEnumerable<T> RepeatIndefinitely<T>(this IEnumerable<T> source)
     {
         var list = source.ToList();
@@ -44,18 +46,16 @@ public static class EnumerableExtensions
     (this IEnumerable<TSource> source,
         Func<TSource, TSource, TResult> projection)
     {
-        using (var iterator = source.GetEnumerator())
+        using var iterator = source.GetEnumerator();
+        if (!iterator.MoveNext())
         {
-            if (!iterator.MoveNext())
-            {
-                yield break;
-            }
-            TSource previous = iterator.Current;
-            while (iterator.MoveNext())
-            {
-                yield return projection(previous, iterator.Current);
-                previous = iterator.Current;
-            }
+            yield break;
+        }
+        TSource previous = iterator.Current;
+        while (iterator.MoveNext())
+        {
+            yield return projection(previous, iterator.Current);
+            previous = iterator.Current;
         }
     }
     
@@ -80,5 +80,29 @@ public static class EnumerableExtensions
         {
             yield return list;
         }
+    }
+    
+    public static TResult MinOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult defaultValue)
+    {
+        var enumerable = source.ToList();
+        return (enumerable.Any() ? enumerable.Min(selector) : defaultValue)!;
+    } 
+    
+    public static TResult MaxOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult defaultValue)
+    {
+        var enumerable = source.ToList();
+        return (enumerable.Any() ? enumerable.Max(selector) : defaultValue)!;
+    }
+    
+    public static TSource MinOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
+    {
+        var enumerable = source.ToList();
+        return (enumerable.Any() ? enumerable.Min() : defaultValue)!;
+    }
+    
+    public static TSource MaxOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
+    {
+        var enumerable = source.ToList();
+        return (enumerable.Any() ? enumerable.Max() : defaultValue)!;
     }
 }
